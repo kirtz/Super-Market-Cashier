@@ -1,28 +1,21 @@
-from dis import dis
-import unicodedata
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-from itertools import product
-from statistics import quantiles
-
-
 # Entering the products purchase + quantity 
+#Cashier inputs all the prodcts bought 1 by 1 
+#It gets stored in a dictionary called "buyingData" and returned back
 
-def enterProducts():
+def enterProducts():  
     buyingData = {}
     enterDetails = True
     while enterDetails:
-        details = input ('Press A to add prodct and Q to quit')
+        details = input ('Press A to add prodct and Q to quit: ')
         if details == 'A':
-            product = input ('Enter Product: ') #Getting Product data
+            product = input ('Enter Product: ') #Gaetting Product data
             quantity = int(input('Enter quantity: ')) #Qauntity of products
             buyingData.update({product: quantity}) #Update the dictionary 
         elif details == 'Q': #To Quit the loop (stop buying)
             enterDetails = False
         else:
             print('Please select a correct option') #let user know to input correct information
-        return buyingData
+    return buyingData
 
         
 # Getting the price of products function
@@ -45,7 +38,7 @@ def getPrice (product, quantity): #Predefined Dictionary of products
 #Subtotal = Product name: £Price X Qauntity 
 
     subtotal = priceData[product] * quantity
-    print(product + ':£' + str(priceData[product]) + 'x' + str(quantity)) + '=' + str(subtotal)
+    print(product + ':£' + str(priceData[product]) + 'x' + str(quantity) + '=' + str(subtotal))
     return subtotal
 
 #Discount function
@@ -63,7 +56,7 @@ def getDiscount(billAmount, membership):
         elif membership == 'Bronze':
             billAmount = billAmount * 0.95
             discount = 5
-        print(str(discount) +  '% off for' + membership + ' ' + 'membership on total amount: £' + str(billAmount))
+        print(str(discount) +  '% off for ' + membership + ' ' + 'membership on total amount: £ ' + str(billAmount))
     #If purchase is < £40, no discount is aplied 
     else:
         print('No discount on amount less than £25')
@@ -78,4 +71,9 @@ def makeBill(buyingData, membership):   #Bill function with 2 parameters - Dicti
     for key, value in buyingData.items(): #Calculate the subtotal,with the Key and value, pass through getPrice to find the product and price 
         billAmount += getPrice(key, value) #for loop since getPrice will get info of one product at a time
     billAmount = getDiscount(billAmount, membership) #subtotal of all the products, time to deduct discount by checking membership status
-    print('The discounted amount is £' + str(billAmount))
+
+    #Call previous functions to run the program.
+
+buyingData = enterProducts() #Call  enterProducts Function
+membership = input('Enter Customer Memebership: ')
+makeBill(buyingData, membership) #Calls makeBill fnction 
